@@ -1,0 +1,40 @@
+{% extends 'sidebar.html' %}
+
+{% block content %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+<h1>{% block title %} Create a new institution {% endblock %}</h1>
+
+
+
+<form method="post">
+    <div class="form-group">
+
+        <label for="group">Choose a Group:</label>
+        <select id="group" name="group">
+        {% for group in groups %}
+          <option value="{{group['GroupID']}}">{{group['Name']}}</option>
+        {% endfor %}
+        </select> 
+    </div> 
+
+
+    <div class="form-group">
+        <label for="Longname">Longname</label>
+        <input type="text" name="Longname"
+               placeholder="Post title" class="form-control"
+               value="{{ request.form['Longname'] }}"></input>
+    </div>
+
+    <div class="form-group">
+        <label for="Shortname">Shortname</label>
+        <input type="text" name="Shortname"
+               placeholder="Post title" class="form-control"
+               value="{{ request.form['Shortname'] }}"></input>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+</main>
+{% endblock %}

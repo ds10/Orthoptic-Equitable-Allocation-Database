@@ -7,14 +7,14 @@
         <thead>
             <tr>
               <th scope="col">Area</th>
-              <th scope="col"><Shotname</th>
+              <th scope="col">Shortname</th>
               <th scope="col">Longname</th>
      
             </tr>
             <tbody>
         {% for institution in institutions %}
         <tr>
-            <td><a href="{{ url_for('institution', institution_id=institution['id']) }}">{{ institution['shortname'] }}</a></td>
+            <td><a href="{{ url_for('institution', institution_id=institution['institutionid']) }}">{{ institution['shortname'] }}</a></td>
             <td>{{ institution['Longname'] }}</td>
         </tr>
 
