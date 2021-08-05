@@ -3,6 +3,74 @@
 {% block content %}
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
   
+    <script type=text/javascript>
+        $(function() {
+          $('a#calculate').bind('click', function() {
+            $.getJSON($SCRIPT_ROOT + '/_update_index', {
+              a: $('input[name="a"]').val(),
+              b: $('input[name="b"]').val()
+            }, function(data) {
+              $("#result").text(data.result);
+            });
+            return false;
+          });
+        });
+      </script>
+
+        <script>
+        $(document).ready(function(){
+            console.log("documenmt ready")
+            // Add Class
+            $('.edit').click(function(){
+            $(this).addClass('editMode');
+            console.log("editmode")
+            });
+
+        // Save data
+        $(".edit").focusout(function(){
+        $(this).removeClass("editMode");
+        console.log("removed")
+        var id = this.id;
+        var split_id = id.split("_");
+        var field_name = split_id[0];
+        var edit_id = split_id[1];
+        var value = $(this).text();
+
+        console.log(field_name)
+        $.getJSON($SCRIPT_ROOT + '/_update_index', {
+              field: field_name,
+              id: edit_id,
+              value: value
+            }, function(data) {
+              $("#result").text(data.result);
+            });
+
+        $.ajax({
+        url: 'update.php',
+        type: 'post',
+        data: { field:field_name, value:value, id:edit_id },
+        success:function(response){
+            if(response == 1){
+                console.log('Save successfully'); 
+            }else{
+                console.log("Not saved.");
+            }
+        }
+        });
+        
+        });
+
+        });
+        </script>
+
+
+      <h1>jQuery Example</h1>
+      <p><input type=text size=5 name=a> +
+         <input type=text size=5 name=b> =
+         <span id=result>?</span>
+      <p><a href=# id=calculate>calculate server side</a>
+
+
     {% for group in groups %}
     <h1>{{ group['Name'] }}</h1>
     <table class="table table-striped" id="institution-list">
@@ -24,7 +92,7 @@
         {% if  institution['GroupID'] == group['GroupID'] %}
         <tr>
             <td><a href="{{ url_for('institution', institution_id=institution['institutionid']) }}">{{ institution['shortname'] }}</a></td>
-            <td>{{ institution['Longname'] }}</td>
+            <td> <div contentEditable='true' class='edit' id="username_{{institution['institutionid']}}"> {{ institution['Longname'] }}</div>    </td>
             <td>{{ institution['Universities'] }}</td>
             <td>{{ institution['Years'] }}</td>
             <td>{{ institution['WTE'] }}</td>

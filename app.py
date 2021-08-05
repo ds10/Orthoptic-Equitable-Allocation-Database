@@ -1,5 +1,5 @@
 import sqlite3
-from flask import Flask, render_template, request, url_for, flash, redirect
+from flask import Flask, render_template, request, url_for, flash, redirect, jsonify
 from werkzeug.exceptions import abort
 
 
@@ -90,3 +90,18 @@ def edit(id):
 
 
     #ajax calls
+
+@app.route('/_update_index')
+def add_numbers():
+    field = request.args.get('field', 0, type=str)
+    id = request.args.get('id', 0, type=str)
+    value = request.args.get('value', 0, type=str)
+
+    conn = get_db_connection()
+    conn.execute('UPDATE Institution SET '+field+' = ?'
+                'WHERE InstitutionID = ?',
+                (value, id))
+    conn.commit()
+    conn.close()
+
+    return jsonify(result=field + id + value)
