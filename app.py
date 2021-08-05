@@ -10,7 +10,7 @@ def get_db_connection():
 
 def get_single(table , column, id):
     conn = get_db_connection()
-    institution = conn.execute('SELECT * FROM [{table}] WHERE {column} = {id}'.format(table=table , column=column, id=id)).fetchone()
+    institution = conn.execute('SELECT rowid, * FROM [{table}] WHERE {column} = {id}'.format(table=table , column=column, id=id)).fetchone()
     conn.close()
     if institution is None:
         abort(404)
@@ -18,7 +18,7 @@ def get_single(table , column, id):
 
 def get_all(table):
     conn = get_db_connection()
-    groups = conn.execute('SELECT * FROM [{table}]'.format(table=table)).fetchall()
+    groups = conn.execute('SELECT rowid, * FROM [{table}]'.format(table=table)).fetchall()
     conn.close()
     return groups
 
@@ -27,17 +27,19 @@ app.config['SECRET_KEY'] = 'thisisalongsecretkeyfullofrand0mlettersabcgaefdasdf'
 
 @app.route('/')
 def index():
-
+    
+    groups = get_all("Group")
     conn = get_db_connection()
-    institutions = conn.execute('SELECT i.institutionID, i.GroupID, i.Longname, i.Shortname, g.Name GroupName FROM Institution i INNER JOIN [Group] g ON ( i.GroupID = g.GroupID) ORDER BY i.Shortname ASC' ).fetchall()
+    institutions = conn.execute('SELECT i.rowid, i.GroupID, i.Longname, i.Shortname, g.Name GroupName FROM Institution i INNER JOIN [Group] g ON ( i.GroupID = g.rowid) ORDER BY i.Shortname ASC' ).fetchall()
+    institutions = conn.execute('SELECT i.InstitutionID, i.GroupID, i.Longname, i.Shortname, p.PreferenceID, p.Universities, p.Years, p.WTE, p.SuggestedAllocation, p.AgreedAllocation, p.Year, p.Capacity, g.Name FROM Institution i INNER JOIN Preference p ON ( i.InstitutionID = p.InstitutionID  ) INNER JOIN [Group] g ON ( i.GroupID = g.GroupID ) ').fetchall()
     conn.close()
-    return render_template('index.html', institutions=institutions)
+    return render_template('index.html', institutions=institutions, groups=groups)
 
 
 
 @app.route('/institution/<int:institution_id>')
 def institution(institution_id):
-    institution = get_single("institution", "institutionid", institution_id)
+    institution = get_single("institution", "rowid", institution_id)
     return render_template('institution.html', institution=institution)
 
 
@@ -65,11 +67,12 @@ def create():
 
 @app.route('/institution/<int:id>/edit', methods=('GET', 'POST'))
 def edit(id):
-    institution = get_single("institution", "institutionid", id)
-
+    institution = get_single("institution", "rowid", id)
+    groups = get_all("Group")
+    
     if request.method == 'POST':
-        shortname = request.form['Longname']
-        longname =  request.form['Shortname']
+        longname = request.form['Longname']
+        shortname =  request.form['Shortname']
         groupid = request.form.get('group')
 
         if not longname:
@@ -77,10 +80,13 @@ def edit(id):
         else:
             conn = get_db_connection()
             conn.execute('UPDATE Institution SET groupid = ?, Longname = ? , Shortname = ?'
-                         ' WHERE id = ?',
+                         ' WHERE rowid = ?',
                          (groupid, longname, shortname, id))
             conn.commit()
             conn.close()
             return redirect(url_for('index'))
 
-    return render_template('edit_institution.html', institution=institution)
+    return render_template('edit_institution.html', institution=institution, groups = groups)
+
+
+    #ajax calls

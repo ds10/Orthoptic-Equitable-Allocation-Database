@@ -3,23 +3,41 @@
 {% block content %}
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
   
-    <table class="table table-striped">
+    {% for group in groups %}
+    <h1>{{ group['Name'] }}</h1>
+    <table class="table table-striped" id="institution-list">
         <thead>
             <tr>
-              <th scope="col">Area</th>
               <th scope="col">Shortname</th>
               <th scope="col">Longname</th>
-     
+              <th scope="col">Uni's</th>
+              <th scope="col">Years</th>
+              <th scope="col">WTE</th>
+              <th scope="col">Sugguested Allocation</th>
+              <th scope="col">Agreed Allocation</th>
+              <th scope="col">Capacity</th>
+
             </tr>
             <tbody>
+        
         {% for institution in institutions %}
+        {% if  institution['GroupID'] == group['GroupID'] %}
         <tr>
             <td><a href="{{ url_for('institution', institution_id=institution['institutionid']) }}">{{ institution['shortname'] }}</a></td>
             <td>{{ institution['Longname'] }}</td>
+            <td>{{ institution['Universities'] }}</td>
+            <td>{{ institution['Years'] }}</td>
+            <td>{{ institution['WTE'] }}</td>
+            <td>{{ institution['SuggestedAllocation'] }}</td>
+            <td>{{ institution['AgreedAllocation'] }}</td>
+            <td>{{ institution['Capacity'] }}</td>
         </tr>
+        {% endif %}
 
         {% endfor %}
     </tbody>
     </table>
+    
+    {% endfor %}
   </main>
 {% endblock %}
