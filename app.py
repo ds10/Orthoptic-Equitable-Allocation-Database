@@ -4,7 +4,7 @@ import sqlite3
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, render_template, request, url_for, flash, redirect, jsonify
 from werkzeug.exceptions import abort
-from models import db, Institution, Group, Preference
+from models import db, Institution, Group, Preference, University, Placement
 
 
 app = Flask(__name__)
@@ -23,20 +23,35 @@ with app.app_context():
 @app.route('/')
 def index():
     
+    prefs = {}
+    prefs['selected'] = "index"
+
     groups=Group.query.all()
     #institutions = db.session.query(Institution, Preference).join(Preference, Preference.institutionid == Institution.id).all()
     results = db.session.query(Institution, Preference).join(Preference, Preference.institutionid == Institution.id, isouter=True).order_by("shortname").all()
 
-    return render_template('index.html', results=results, groups=groups)
+    return render_template('index.html', results=results, groups=groups, prefs=prefs)
 
+
+@app.route('/university')
+def university():
+    
+    prefs = {}
+    prefs['selected'] = "university"
+    universities=University.query.all()
+
+    return render_template('index.html', universities=universities, prefs=prefs)
 
 
 @app.route('/institution/<int:institution_id>')
 def institution(institution_id):
 
+    prefs = {}
+    prefs['selected'] = "index"
+
     institution=Institution.query.get(institution_id)
 
-    return render_template('institution.html', institution=institution)
+    return render_template('institution.html', institution=institution, prefs=prefs )
 
 
 @app.route('/institution/create', methods=('GET', 'POST'))

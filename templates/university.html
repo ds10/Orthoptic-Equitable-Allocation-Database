@@ -18,7 +18,7 @@
          
            <option value="2021" selected>2021/2022</option>
            <option value="2022" >2022/2023</option>
-          <option value="2023">2023/2024</option>
+          <option value="2023">2022/2022</option>
    
           </select> 
       </div> 
@@ -26,9 +26,25 @@
   </main>
 
 
-<br/>
-<br/>
-<h6>Calendar template to go here</h6>
 
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+              <th scope="col">Area</th>
+              <th scope="col">Shotname</th>
+              <th scope="col">Longname</th>
+     
+            </tr>
+            <tbody>
+        {% for institution in institutions %}
+        <tr>
+            <td>{{ institution['shortname'] }}</td>
+            <td>{{ institution['Longname'] }}</td>
+        </tr>
+
+        {% endfor %}
+    </tbody>
+    </table>
   </main>
 {% endblock %}

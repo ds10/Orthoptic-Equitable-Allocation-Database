@@ -15,7 +15,7 @@
         </script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-        
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <!--<script src="{{ url_for('static', filename= 'javascript/table.js') }}"></script>-->
     
@@ -67,22 +67,36 @@
 
             <ul class="nav flex-column">
               <li class="nav-item">
-                <a class="nav-link active" href="{{ url_for('index') }}">
+                <a class="nav-link {% if prefs['selected'] == 'index' %} active {% endif %}" href="{{ url_for('index') }}">
                   <span data-feather="home"></span>
-                  Institution Overview <span class="sr-only">(current)</span>
+                  Institution Overview<span class="sr-only"></span>
                 </a>
-               <a class="nav-link" href="#">
+              </li>
+
+
+              <li>
+
+               <a class="nav-link {% if prefs['selected'] == 'university' %} active  {% endif %}"  href="{{ url_for('university') }}">
                   <span data-feather="home"></span>
                   HEI Overview <span class="sr-only"></span>
-              </a>
+                </a>
               </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="bar-chart-2"></span>
+                  Reports
+                </a>
+              </li>
+
+              <!---
               <li class="nav-item">
                 <a class="nav-link" href="#">
                   <span data-feather="edit-2"></span>
                   Inputting
                 </a>
               </li>
-              <!--
+         
               <li class="nav-item">
                 <a class="nav-link" href="#">
                   <span data-feather="edit-3"></span>
@@ -141,20 +155,15 @@
                   Authorisation
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="bar-chart-2"></span>
-                  Reports
-                </a>
-              </li>
+              
             </ul>
 
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
               <span>NHS Clinical Staff</span><!--
               <a class="d-flex align-items-center text-muted" href="#">
                 <span data-feather="plus-circle"></span>
-              -->
-              </a>
+              
+              </a>-->
             </h6>
  
             <ul class="nav flex-column">
