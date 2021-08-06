@@ -25,7 +25,7 @@ def index():
     
     groups=Group.query.all()
     #institutions = db.session.query(Institution, Preference).join(Preference, Preference.institutionid == Institution.id).all()
-    results = db.session.query(Institution, Preference).join(Preference, Preference.institutionid == Institution.id, isouter=True).all()
+    results = db.session.query(Institution, Preference).join(Preference, Preference.institutionid == Institution.id, isouter=True).order_by("shortname").all()
 
     return render_template('index.html', results=results, groups=groups)
 
@@ -67,24 +67,20 @@ def create():
 
 @app.route('/institution/<int:id>/edit', methods=('GET', 'POST'))
 def edit(id):
-    institution = get_single("institution", "rowid", id)
-    groups = get_all("Group")
+    institution=Institution.query.get(id)
+    groups=Group.query.all()
     
     if request.method == 'POST':
-        longname = request.form['Longname']
-        shortname =  request.form['Shortname']
-        groupid = request.form.get('group')
+        institution.longname = request.form['Longname']
+        institution.shortname =  request.form['Shortname']
+        institution.groupid = request.form.get('group')
 
-        if not longname:
+        if not request.form['Longname']:
             flash('longname is required!')
         else:
-            conn = get_db_connection()
-            conn.execute('UPDATE Institution SET groupid = ?, Longname = ? , Shortname = ?'
-                         ' WHERE rowid = ?',
-                         (groupid, longname, shortname, id))
-            conn.commit()
-            conn.close()
+            db.session.commit()
             return redirect(url_for('index'))
+            
 
     return render_template('edit_institution.html', institution=institution, groups = groups)
 
@@ -96,12 +92,14 @@ def add_numbers():
     field = request.args.get('field', 0, type=str)
     id = request.args.get('id', 0, type=str)
     value = request.args.get('value', 0, type=str)
-
-    conn = get_db_connection()
-    conn.execute('UPDATE Institution SET '+field+' = ?'
-                'WHERE InstitutionID = ?',
-                (value, id))
-    conn.commit()
-    conn.close()
+    if field == "longname" or field == "shortname":
+        institution=Institution.query.get(id)
+        setattr(institution,field,value)
+        db.session.commit()
+    else:
+        print("yes")
+        preference=Preference.query.get(id)
+        setattr(preference,field,value)
+        db.session.commit()
 
     return jsonify(result=field + id + value)

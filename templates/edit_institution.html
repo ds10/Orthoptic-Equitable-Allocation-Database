@@ -2,7 +2,7 @@
 
 {% block content %}
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-<h1>{% block title %} Editing "{{ institution['shortname'] }}" {% endblock %}</h1>
+<h1>{% block title %} Editing "{{ institution.shortname }}" {% endblock %}</h1>
 
 
 
@@ -12,10 +12,10 @@
         <label for="group">Choose a Group:</label>
         <select id="group" name="group">
         {% for group in groups %}
-        {% if institution['groupid'] == group['groupid']  %}
-         <option value="{{group['groupid']}}" selected>{{group['Name']}}</option>
+        {% if institution.groupid == group.id  %}
+         <option value="{{group.id}}" selected>{{group.name}}</option>
          {% else %}
-          <option value="{{group['groupid']}}">{{group['Name']}}</option>
+          <option value="{{group.id}}">{{group.name}}</option>
         {% endif %}
         {% endfor %}
         </select> 
@@ -25,14 +25,14 @@
         <label for="Longname">Longname</label>
         <input type="text" name="Longname"
                placeholder="Long name" class="form-control"
-               value="{{ request.form['Longname'] or institution['Longname']}}"></input>
+               value="{{ request.form['Longname'] or institution.longname}}"></input>
     </div>
 
     <div class="form-group">
         <label for="Shortname">Shortname</label>
         <input type="text" name="Shortname"
                placeholder="Short name" class="form-control"
-               value="{{ request.form['Shortname'] or institution['Shortname'] }}"></input>
+               value="{{ request.form['Shortname'] or institution.shortname}}"></input>
     </div>
 
     <div class="form-group">

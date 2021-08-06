@@ -1,4 +1,4 @@
-﻿PreferenceID,LocationID,Universities,Years,Capacity,WTE,SuggestedAllocation,AgreedAllocation,Year
+﻿PreferenceID,LocationID,Universities,Years,Capacity,WTE,suggestedallocation,AgreedAllocation,Year
 1,1,L,,1,3.00,3,3,2019
 2,2,"L,S",,2,3.11,8,8,2019
 3,3,L,,1,5.40,6,6,2019
