@@ -1,0 +1,1 @@
+SELECT setval('institution_id_seq', MAX(id)) FROM institution;

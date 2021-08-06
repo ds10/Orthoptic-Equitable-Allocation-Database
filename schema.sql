@@ -1,5 +1,0 @@
-CREATE TABLE "Group" (
-	"GroupID"	INTEGER NOT NULL,
-	"Name"	varchar(100),
-	PRIMARY KEY("GroupID" AUTOINCREMENT)
-)
