@@ -43,6 +43,19 @@ def university():
     return render_template('index.html', universities=universities, prefs=prefs)
 
 
+@app.route('/institution')
+def institution_index():
+
+    prefs = {}
+    prefs['selected'] = "insitution"
+
+    groups=Group.query.all()
+    #institutions = db.session.query(Institution, Preference).join(Preference, Preference.institutionid == Institution.id).all()
+    results = db.session.query(Institution, Preference).join(Preference, Preference.institutionid == Institution.id, isouter=True).order_by("shortname").all()
+
+    return render_template('institution_index.html', results=results, groups=groups, prefs=prefs )
+
+
 @app.route('/institution/<int:institution_id>')
 def institution(institution_id):
 
@@ -104,17 +117,41 @@ def edit(id):
 
 @app.route('/_update_index')
 def add_numbers():
-    field = request.args.get('field', 0, type=str)
+    field = request.args.get('field', 0, type=int)
     id = request.args.get('id', 0, type=str)
     value = request.args.get('value', 0, type=str)
+
     if field == "longname" or field == "shortname":
         institution=Institution.query.get(id)
         setattr(institution,field,value)
         db.session.commit()
     else:
-        print("yes")
-        preference=Preference.query.get(id)
-        setattr(preference,field,value)
-        db.session.commit()
+        if not id:
+            #insert new preference
+            entry = Preference(None,None,None,None,None,None,None,None,None)
+            db.session.add(entry)
+            db.session.commit()
+
+            #added a blank preference, now update it with the result
+            #refreshing is not a good way to do it..
+
+            #now you need to refresh the page
+
+            return jsonify(result="refresh")
+
+        else:
+            preference=Preference.query.get(id)
+            setattr(preference,field,value)
+            db.session.commit()
 
     return jsonify(result=field + id + value)
+
+
+@app.route('/report')
+def report():
+    prefs = {}
+    prefs['selected'] = "report"
+
+ 
+
+    return render_template('dashboard.html', prefs=prefs )

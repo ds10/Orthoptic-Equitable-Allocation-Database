@@ -63,13 +63,27 @@
         });
         </script>
 
+
+   
+
     <h1>Institution Overview</h1>
+
+
+<!--
+    <canvas class="my-4" id="myChart" width="900" height="380"></canvas>
+-->
+
+
     {% for group in groups %}
-    
     <h2>{{group.name}}</h2>
-    <table class="table table-striped" id="institution-list">
-        <thead>
-            <tr>              <th scope="col"></th>
+    
+    <div class="table-responsive">
+
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th scope="col"></th>
               <th scope="col">Shortname</th>
               <th scope="col">Longname</th>
               <th scope="col">Uni's</th>
@@ -78,34 +92,62 @@
               <th scope="col">Suggested Allocation</th>
               <th scope="col">Agreed Allocation</th>
               <th scope="col">Capacity</th>
-
             </tr>
+          </thead>
+          <tbody>
+
+
 
             {% for result in results %}
       
             
-            {% if result[0].groupid == group.id %}
-            <tr>
-                <td><a href="{{ url_for('institution', institution_id=result[0].id) }}"> <span data-feather="calendar"></span></a></td>
-                <td><div contentEditable='true' class='edit' id="shortname_{{result[0].id}}">{{ result[0].shortname }}</div></td>
-                <td><div contentEditable='true' class='edit' id="longname_{{result[0].id}}">{{ result[0].longname }}</div></td>
-                <td><div contentEditable='true' class='edit' id="universities_{{result[1].id}}">{{ result[1].universities }}</div></td>
-                <td><div contentEditable='true' class='edit' id="years_{{result[1].id}}">{{ result[1].years }}</div></td>
-                <td><div contentEditable='true' class='edit' id="wte_{{result[1].id}}">{{ result[1].wte }}</div></td>
-                <td><div contentEditable='true' class='edit' id="suggestedallocation_{{result[1].id}}">{{ result[1].suggestedallocation }}</div></td>
-                <td><div contentEditable='true' class='edit' id="agreedallocation_{{result[1].id}}">{{ result[1].agreedallocation }}</div></td>
-                <td><div contentEditable='true' class='edit' id="capacity_{{result[1].id}}">{{ result[1].capacity }}</div></td>
-            </tr>
-            {% endif %}
+              {% if result[0].groupid == group.id %}
+              <tr>
+                  <td><a href="{{ url_for('institution', institution_id=result[0].id) }}"> <span data-feather="calendar"></span></a></td>
+                  <td><div contentEditable='true' class='edit' id="shortname_{{result[0].id}}">{{ result[0].shortname }}</div></td>
+                  <td><div contentEditable='true' class='edit' id="longname_{{result[0].id}}">{{ result[0].longname }}</div></td>
+                  <td><div contentEditable='true' class='edit' id="universities_{{result[1].id}}">{{ result[1].universities }}</div></td>
+                  <td><div contentEditable='true' class='edit' id="years_{{result[1].id}}">{{ result[1].years }}</div></td>
+                  <td><div contentEditable='true' class='edit' id="wte_{{result[1].id}}">{{ result[1].wte }}</div></td>
+                  <td><div contentEditable='true' class='edit' id="suggestedallocation_{{result[1].id}}">{{ result[1].suggestedallocation }}</div></td>
+                  <td><div contentEditable='true' class='edit' id="agreedallocation_{{result[1].id}}">{{ result[1].agreedallocation }}</div></td>
+                  <td><div contentEditable='true' class='edit' id="capacity_{{result[1].id}}">{{ result[1].capacity }}</div></td>
+              </tr>
+              {% endif %}
         
             {% endfor %}
-        
-            <tbody>
-        
+          </tbody>
+        </table>
+      </div>
 
-    </tbody>
-    </table>
-    
     {% endfor %}
   </main>
+
+
+<script>
+  var polarchart = document.getElementById("myChart");
+
+  var myChart = new Chart(polarchart, {
+    type: 'polarArea',
+    data: {
+      labels: [
+        'Glasgow',
+        'Liverpool',
+        'Sheffield'
+      ],
+      datasets: [{
+        label: 'My First Dataset',
+        data: [100, 75, 80],
+        backgroundColor: [
+          'rgb(255, 99, 132)',
+          'rgb(75, 192, 192)',
+          'rgb(255, 205, 86)'
+        ]
+      }]
+      }
+    });
+</script>
+
+
+
 {% endblock %}
