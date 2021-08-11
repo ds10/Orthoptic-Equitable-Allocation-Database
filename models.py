@@ -72,3 +72,14 @@ class University(db.Model):
     def __init__(self, name):
         self.name = name
 
+class Availability(db.Model):
+    __tablename__ = 'availability'
+    id = db.Column(db.Integer, primary_key=True)
+    universityid = db.Column(db.Integer, db.ForeignKey('university.id'))
+    date = db.Column(db.Date)
+
+    def __init__(self, universityid, preferenceid, date):
+        self.universityid = universityid
+        self.preferenceid = preferenceid
+
+        self.date = date

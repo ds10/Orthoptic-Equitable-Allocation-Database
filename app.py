@@ -1,6 +1,9 @@
 #currently moving through https://towardsdatascience.com/sending-data-from-a-flask-app-to-postgresql-database-889304964bf2
 
-import sqlite3
+
+import datetime
+import calendar
+
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, render_template, request, url_for, flash, redirect, jsonify
 from werkzeug.exceptions import abort
@@ -15,7 +18,6 @@ app.config["SQLALCHEMY_ECHO"] = True
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://orthoptic:gladdylight@localhost:5432/orthopticequitable"
 
 
-
 db.init_app(app)
 with app.app_context():
     db.create_all()
@@ -24,13 +26,13 @@ with app.app_context():
 def index():
     
     prefs = {}
-    prefs['selected'] = "index"
+    prefs['selected'] = "report"
 
     groups=Group.query.all()
     #institutions = db.session.query(Institution, Preference).join(Preference, Preference.institutionid == Institution.id).all()
     results = db.session.query(Institution, Preference).join(Preference, Preference.institutionid == Institution.id, isouter=True).order_by("shortname").all()
 
-    return render_template('index.html', results=results, groups=groups, prefs=prefs)
+    return render_template('dashboard.html', results=results, groups=groups, prefs=prefs)
 
 
 @app.route('/university')
@@ -40,7 +42,7 @@ def university():
     prefs['selected'] = "university"
     universities=University.query.all()
 
-    return render_template('index.html', universities=universities, prefs=prefs)
+    return render_template('university.html', universities=universities, prefs=prefs)
 
 
 @app.route('/institution')
@@ -63,6 +65,8 @@ def institution(institution_id):
     prefs['selected'] = "index"
 
     institution=Institution.query.get(institution_id)
+
+
 
     return render_template('institution.html', institution=institution, prefs=prefs )
 
@@ -155,3 +159,11 @@ def report():
  
 
     return render_template('dashboard.html', prefs=prefs )
+
+@app.route('/calendar')
+def calendar_def():
+    prefs = {}
+    prefs['selected'] = "report"
+
+
+    return render_template('fullcalendar.html', prefs=prefs )
