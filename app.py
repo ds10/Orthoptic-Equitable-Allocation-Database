@@ -32,7 +32,7 @@ def index():
     #institutions = db.session.query(Institution, Preference).join(Preference, Preference.institutionid == Institution.id).all()
     results = db.session.query(Institution, Preference).join(Preference, Preference.institutionid == Institution.id, isouter=True).order_by("shortname").all()
 
-    return render_template('dashboard.html', results=results, groups=groups, prefs=prefs)
+    return render_template('index.html', results=results, groups=groups, prefs=prefs)
 
 
 @app.route('/university')
@@ -55,10 +55,10 @@ def institution_index():
     #institutions = db.session.query(Institution, Preference).join(Preference, Preference.institutionid == Institution.id).all()
     results = db.session.query(Institution, Preference).join(Preference, Preference.institutionid == Institution.id, isouter=True).order_by("shortname").all()
 
-    return render_template('institution_index.html', results=results, groups=groups, prefs=prefs )
+    return render_template('institution.html', results=results, groups=groups, prefs=prefs )
 
 
-@app.route('/institution/<int:institution_id>')
+@app.route('/institution/<int:institution_id>/calendar')
 def institution(institution_id):
 
     prefs = {}
@@ -68,7 +68,7 @@ def institution(institution_id):
 
 
 
-    return render_template('institution.html', institution=institution, prefs=prefs )
+    return render_template('institution_calendar.html', institution=institution, prefs=prefs )
 
 
 @app.route('/institution/create', methods=('GET', 'POST'))
@@ -121,10 +121,13 @@ def edit(id):
 
 @app.route('/_update_index')
 def add_numbers():
-    field = request.args.get('field', 0, type=int)
+    field = request.args.get('field', 0, type=str)
     id = request.args.get('id', 0, type=str)
     value = request.args.get('value', 0, type=str)
 
+    print(field)
+    print(id)
+    print(value)
     if field == "longname" or field == "shortname":
         institution=Institution.query.get(id)
         setattr(institution,field,value)

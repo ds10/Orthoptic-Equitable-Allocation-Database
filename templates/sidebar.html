@@ -1,18 +1,22 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
     <head>
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
-  
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <title>{% block title %} {% endblock %}</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename= 'css/dashboard.css') }}">
+
+
+        <link rel="stylesheet" href="{{ url_for('static', filename= 'css/styles.css') }}">
+
+
+  
+       
         <script type=text/javascript>
           $SCRIPT_ROOT = {{ request.script_root|tojson }};
         </script>
 
-
+        <script src="{{ url_for('static', filename= 'javascript/scripts.js') }}"></script>
      
         <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
@@ -31,211 +35,60 @@
         <link rel="stylesheet" type="text/css" href="https://unpkg.com/bootstrap-datepicker@1.8.0/dist/css/bootstrap-datepicker.standalone.min.css" />
 
 
-  </head>
+    </head>
+        <body>
+            <div class="d-flex" id="wrapper">
+                <!-- Sidebar-->
+                <div class="border-end bg-white" id="sidebar-wrapper">
+                    <div class="sidebar-heading border-bottom bg-light">Liverpool Tools</div>
+                    <div class="list-group list-group-flush">
+                        <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{{ url_for('index') }}">Dashboard</a>
+                        <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{{ url_for('institution_index') }}">Institution Overview</a>
+                        <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{{ url_for('university') }}">HEI Overview</a>
 
-  <body>
-   <!-- <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-    <nav class="navbar navbar-expand-md navbar-light bg-light">
-        <a class="navbar-brand" href="{{ url_for('index')}}">Placement Manager</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">HEI</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="#">NHS CLinical</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Professional Body</a>
-            </li>
-            </ul>
-        </div>
-    </nav>
-  -->
-
-  <!--
-  <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-    <span>HEI</span>
-    <a class="d-flex align-items-center text-muted" href="#">
-      <span data-feather="plus-circle"></span>
-    </a>
-  </h6>
-
--->
-    <div class="container-fluid">
-      <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                              <h5 class="mb-1">HEI Tools</h5>
+                            </div>
+                    
+                        <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Input</a>
+                        <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Edit</a>
+                        <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Authorise</a>
 
 
-          <div class="sidebar-sticky">
+                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                              <h5 class="mb-1">Clinical Staff Tools</h5>
+                            </div>
+                    
+                        <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Submit</a>
+                        <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Request Change</a>
+                        <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Overview</a>
 
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-              <span>Liverpool TOOLS</span><!--
-              <a class="d-flex align-items-center text-muted" href="#">
-                <span data-feather="plus-circle"></span>
-              </a>
-            -->
-            </h6>
-
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <a class="nav-link {% if prefs['selected'] == 'report' %} active  {% endif %}"  href="{{ url_for('report') }}">
-                  <span data-feather="bar-chart-2"></span>
-                  Overview Dashboard
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a class="nav-link {% if prefs['selected'] == 'index' %} active {% endif %}" href="{{ url_for('institution_index') }}">
-                  <span data-feather="home"></span>
-                  Institution Overview<span class="sr-only"></span>
-                </a>
-              </li>
-
-
-              <li>
-
-               <a class="nav-link {% if prefs['selected'] == 'university' %} active  {% endif %}"  href="{{ url_for('university') }}">
-                  <span data-feather="home"></span>
-                  HEI Overview <span class="sr-only"></span>
-                </a>
-              </li>
+                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                              <h5 class="mb-1">Profession Body Tools</h5>
+                            </div>
+                    
+                        <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Overview</a>
 
 
 
-              <!---
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="edit-2"></span>
-                  Inputting
-                </a>
-              </li>
-         
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="edit-3"></span>
-                  Editing
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="check"></span>
-                  Authorisation
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="bar-chart-2"></span>
-                  Reports
-                </a>
-              </li>
-            -->
-            </ul>
-
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-            <span>HEI Tools</span><!--
-              <a class="d-flex align-items-center text-muted" href="#">
-                <span data-feather="plus-circle"></span>
-              </a>
-            -->
-            </h6>
-
-
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="edit-2"></span>
-                  Input
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="edit-3"></span>
-                  Edit
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="check"></span>
-                  Authorise
-                </a>
-              </li>
-              
-            </ul>
-
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-              <span>Clinical Staff Tools</span><!--
-              <a class="d-flex align-items-center text-muted" href="#">
-                <span data-feather="plus-circle"></span>
-              
-              </a>-->
-            </h6>
- 
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="pen-tool"></span>
-                  Submit 
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="edit-3"></span>
-                  Request Change
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="search"></span>
-                  Overview
-                </a>
-              </li>
-              </li>
-            </ul>
-
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-              <span>Profession Body Tools</span><!--
-              <a class="d-flex align-items-center text-muted" href="#">
-                <span data-feather="plus-circle"></span>
-              -->
-              </a>
-            </h6>
- 
-            <ul class="nav flex-column">
-      
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="search"></span>
-                  Overview
-                </a>
-              </li>
-              </li>
-            </ul>
-
-
-
-          </div>
-        </nav>
-
-        <div class="container">
-         {% block content %} {% endblock %}
-        </div>
-        
-      </div>
-    </div>
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-
+                    </div>
+                </div>
+                
+                <!-- Page content wrapper-->
+                <div id="page-content-wrapper">
+                   
+                    <!-- Page content-->
+                    <div class="container-fluid">
+                        {% block content %} {% endblock %}
+                    </div>
+                </div>
+            </div>
+     
     <script>
-      feather.replace()
-    </script>
-
-    <!-- Graphs -->
-
-
-  </body>
-</html>
+        feather.replace()
+      </script>
+  
+    </html>

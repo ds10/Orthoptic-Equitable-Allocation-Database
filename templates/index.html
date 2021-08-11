@@ -3,11 +3,11 @@
 {% block content %}
 
 
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+<main role="main">
   
     <!-- title and share export buttons -->
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-      <h1 class="h2">Dashboard</h1>
+      <h1 class="mt-4">Dashboard</h1>
       <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
           <button class="btn btn-sm btn-outline-secondary">Share</button>
@@ -17,8 +17,31 @@
     </div>
 
    
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Weekly Placement Coverage</h5>
+            <p class="card-text">  <canvas class="my-4" id="myChart" ></canvas></p>
+            <a href="#" class="btn btn-primary">Institution Overview</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Student Allocations</h5>
+            <p class="card-text">  <canvas class="my-4" id="polarchart" ></canvas></p>
+            <a href="#" class="btn btn-primary">HEI Overview</a>
+          </div>
+        </div>
+      </div>
+    </div>
 
-     <!--canvas elements -->
+<br/><br/>
+
+  </div>
+     <!--canvas elements --><!--
       <div style="width: 100%;">
         <div style="width: 50%; height: 250px; float: left;"> 
           <canvas class="my-4" id="myChart" width="900" height="380"></canvas>
@@ -27,8 +50,7 @@
           <canvas class="my-4" id="polarchart" width="900" height="380"></canvas>
         </div>
       </div>
- 
-
+    -->
     
       <h2>North West Placement Overview</h2>
       <div class="table-responsive">
@@ -44,14 +66,14 @@
           <tbody>
 
           <tr style="background-color: yellow;">
-              <td><a href="/institution/9"> <span data-feather="calendar"></span></a></td>
+              <td><a href="/institution/9/calendar"> <span data-feather="calendar"></span></a></td>
               <td><div contentEditable='true' class='edit' id="shortname_9">Blackpool Victoria Hospital</div></td>
               <td><div contentEditable='true' class='edit' id="longname_9">Blackpool, Fylde &amp; Wyre Hospital NHS Trust</div></td>
               <td><div contentEditable='true' class='edit' id="capacity_9">1</div></td>
           </tr>
 
           <tr style="background-color: greenyellow;">
-              <td><a href="/institution/8"> <span data-feather="calendar"></span></a></td>
+              <td><a href="/institution/8/calendar"> <span data-feather="calendar"></span></a></td>
               <td><div contentEditable='true' class='edit' id="shortname_8">Burnley General Hospital</div></td>
               <td><div contentEditable='true' class='edit' id="longname_8">East Lancashire Hospitals NHS Trust</div></td>
 
@@ -59,7 +81,7 @@
           </tr>
 
           <tr style="background-color: greenyellow;">
-              <td><a href="/institution/17"> <span data-feather="calendar"></span></a></td>
+              <td><a href="/institution/17/calendar"> <span data-feather="calendar"></span></a></td>
               <td><div contentEditable='true' class='edit' id="shortname_17">Bury Community Eye Service </div></td>
               <td><div contentEditable='true' class='edit' id="longname_17">Penine Care NHS Foundation Trust</div></td>
 
@@ -67,7 +89,7 @@
           </tr>
 
           <tr style="background-color: greenyellow;">
-              <td><a href="/institution/14"> <span data-feather="calendar"></span></a></td>
+              <td><a href="/institution/14/calendar"> <span data-feather="calendar"></span></a></td>
               <td><div contentEditable='true' class='edit' id="shortname_14">Countess of Chester Hospital</div></td>
               <td><div contentEditable='true' class='edit' id="longname_14">Countess of Chester Hospital NHS Foundation Trust</div></td>
 
@@ -76,7 +98,7 @@
           
 
           <tr style="background-color: greenyellow;">
-              <td><a href="/institution/24"> <span data-feather="calendar"></span></a></td>
+              <td><a href="/institution/24/calendar"> <span data-feather="calendar"></span></a></td>
               <td><div contentEditable='true' class='edit' id="shortname_24">Cumberland Infirmary</div></td>
               <td><div contentEditable='true' class='edit' id="longname_24">North Cumbria University Hospitals NHS Trust </div></td>
 
@@ -85,7 +107,7 @@
 
           
           <tr style="background-color: rgb(255, 47, 47);">
-              <td><a href="/institution/6"> <span data-feather="calendar"></span></a></td>
+              <td><a href="/institution/6/calendar"> <span data-feather="calendar"></span></a></td>
               <td><div contentEditable='true' class='edit' id="shortname_6">Wirral University</div></td>
               <td><div contentEditable='true' class='edit' id="longname_6">Wirral University Teaching Hospital NHS Foundation Trust</div></td>
 
@@ -94,7 +116,7 @@
 
 
           <tr style="background-color: greenyellow;">
-              <td><a href="/institution/12"> <span data-feather="calendar"></span></a></td>
+              <td><a href="/institution/12/calendar"> <span data-feather="calendar"></span></a></td>
               <td><div contentEditable='true' class='edit' id="shortname_12">Leighton Hospital, Crewe</div></td>
               <td><div contentEditable='true' class='edit' id="longname_12">Mid Cheshire Hospitals NHS Foundation Trust </div></td>
               <td><div contentEditable='true' class='edit' id="capacity_12">None</div></td>

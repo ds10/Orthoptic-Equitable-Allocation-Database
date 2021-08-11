@@ -1,0 +1,16 @@
+{% extends 'sidebar.html' %}
+
+{% block content %}
+<main role="main">
+  
+
+    <h2>{% block title %} {{ institution.shortname }} {% endblock %} Placement Calendar</h2>
+    <span class="badge badge-primary">{{ institution.longname }}</span>
+
+<br/>
+<br/>
+
+{% include "instituion_calendar_module.html" %}
+
+</main>
+{% endblock %}
